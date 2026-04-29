@@ -1,0 +1,20 @@
+tracepoint:syscalls:sys_enter_execve
+{
+  @exec_path[tid] = str(args->filename);
+  @exec_seen[tid] = 1;
+}
+
+tracepoint:syscalls:sys_exit_execve
+/@exec_seen[tid] && args->ret == 0/
+{
+  printf("CMD: %s\n", @exec_path[tid]);
+  delete(@exec_path[tid]);
+  delete(@exec_seen[tid]);
+}
+
+tracepoint:syscalls:sys_exit_execve
+/@exec_seen[tid] && args->ret != 0/
+{
+  delete(@exec_path[tid]);
+  delete(@exec_seen[tid]);
+}

@@ -1,0 +1,12 @@
+tracepoint:syscalls:sys_enter_openat
+{
+  @start[tid] = nsecs;
+}
+
+tracepoint:syscalls:sys_exit_openat
+/@start[tid]/
+{
+  $delta = nsecs - @start[tid];
+  printf("File open latency: %d us\n", $delta / 1000);
+  delete(@start[tid]);
+}

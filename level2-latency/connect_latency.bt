@@ -1,0 +1,12 @@
+tracepoint:syscalls:sys_enter_connect
+{
+  @start[tid] = nsecs;
+}
+
+tracepoint:syscalls:sys_exit_connect
+/@start[tid]/
+{
+  $delta = nsecs - @start[tid];
+  printf("Connect latency: %d us\n", $delta / 1000);
+  delete(@start[tid]);
+}

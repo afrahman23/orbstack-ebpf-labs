@@ -1,0 +1,5 @@
+tracepoint:syscalls:sys_enter_execve
+/pid == 1234/
+{
+  printf("PID 1234 jalanin: %s\n", str(args->filename));
+}

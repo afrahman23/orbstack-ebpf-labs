@@ -1,0 +1,4 @@
+profile:hz:99
+{
+  @[comm] = count();
+}

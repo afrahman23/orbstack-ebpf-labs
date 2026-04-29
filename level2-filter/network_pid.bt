@@ -1,0 +1,5 @@
+tracepoint:syscalls:sys_enter_connect
+/comm == "curl"/
+{
+  printf("CURL detected: PID=%d\n", pid);
+}
